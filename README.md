@@ -42,7 +42,7 @@ $ docker-compose up --build -d
 $ docker-compose down
 ```
 
-After run this commands access [swagger](http://localhost:8080/api-docs/swagger-ui/index.html) to validate application it's ok.
+After run this commands access [swagger](http://localhost:8081/api-docs/swagger-ui/index.html) to validate application it's ok.
 
 </details>
 
@@ -51,4 +51,4 @@ After run this commands access [swagger](http://localhost:8080/api-docs/swagger-
 
 ## Documentation
 
-This project Using OpenAPI 3.0 specification if you whant to see a doc open [swagger-ui](http://localhost:8080/api-docs/swagger-ui/index.html) in your Browser
+This project Using OpenAPI 3.0 specification if you whant to see a doc open [swagger-ui](http://localhost:8081/api-docs/swagger-ui/index.html) in your Browser
