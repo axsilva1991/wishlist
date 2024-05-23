@@ -22,9 +22,9 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         with:
           files: ./app/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag wishlist:$(date +%s)
       - name: Dependency Check OWSAP
         working-directory: ./app
         run: gradle dependencyCheckAggregate
-      - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag wishlist:$(date +%s)
 

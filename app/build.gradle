@@ -37,3 +37,10 @@ tasks.named('test') {
 tasks.named('check') {
 	dependsOn tasks.named('testCodeCoverageReport', JacocoReport)
 }
+bootJar {
+	enabled = false
+}
+
+jar {
+	enabled = true
+}
