@@ -1,0 +1,9 @@
+version: '3'
+services:
+  backend:
+    build:
+      context: .
+      args:
+        - JAR_FILE=./app/build/libs/app.jar
+    ports:
+      - 8081:8081
