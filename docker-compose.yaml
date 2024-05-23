@@ -6,4 +6,4 @@ services:
       args:
         - JAR_FILE=./app/build/libs/app.jar
     ports:
-      - 8081:8081
+      - "8081:8081"
