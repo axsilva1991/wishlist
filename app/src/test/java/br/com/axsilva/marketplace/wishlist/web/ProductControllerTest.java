@@ -27,7 +27,7 @@ class ProductControllerTest {
     @Test
     void deleteProductBy_when_delete_product_by_client_and_product_id() {
 
-        ResponseEntity<HttpStatus> responseEntity = productController.deleteProductBy("testClientId", "testClientId");
+        ResponseEntity<HttpStatus> responseEntity = productController.deleteProductBy("testClientId", "testProductId");
 
         assertEquals(204, responseEntity.getStatusCodeValue());
 
@@ -36,7 +36,7 @@ class ProductControllerTest {
     @Test
     void insertProducts_when_insert_product_by_client_and_product_id() {
 
-        ResponseEntity<HttpStatus> responseEntity = productController.insertProducts("productId");
+        ResponseEntity<HttpStatus> responseEntity = productController.insertProducts("testClientId");
 
         assertEquals(201, responseEntity.getStatusCodeValue());
 
