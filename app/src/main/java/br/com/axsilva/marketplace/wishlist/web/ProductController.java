@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.ws.rs.QueryParam;
 
 @RestController
 public class ProductController {
@@ -28,10 +27,20 @@ public class ProductController {
         return ResponseEntity.ok()
                 .body("products");
     }
+
+    @GetMapping("/v1/products")
+    public ResponseEntity<String> getProductBy(
+            @RequestParam("clientId") String clientId,
+            @RequestParam("productId") String productId) {
+        log.info("GET - /v1/products/{clientId}?productId={}", productId);
+        return ResponseEntity.ok()
+                .body("product");
+    }
+
     @DeleteMapping("/v1/products/{clientId}")
     public ResponseEntity<HttpStatus> deleteProductBy(
             @PathVariable("clientId") String clientId,
-            @QueryParam("productId") String productId) {
+            @RequestParam("productId") String productId) {
         log.info("DELETE - /v1/products/{clientId}?productId={}", productId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }

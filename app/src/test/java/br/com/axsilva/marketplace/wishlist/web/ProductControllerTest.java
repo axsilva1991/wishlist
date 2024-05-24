@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
 @ExtendWith(MockitoExtension.class)
 class ProductControllerTest {
 
@@ -17,9 +16,17 @@ class ProductControllerTest {
     private ProductController productController;
 
     @Test
-    void getProductsBy_when_return_products() {
+    void getProductsBy_clientId_when_return_products() {
 
         ResponseEntity<String> responseEntity = productController.getProductsBy("testClientId");
+
+        assertEquals(200, responseEntity.getStatusCodeValue());
+    }
+
+    @Test
+    void getProductBy_clientId_and_productId_when_return_products() {
+
+        ResponseEntity<String> responseEntity = productController.getProductBy("testClientId", "testProductId");
 
         assertEquals(200, responseEntity.getStatusCodeValue());
     }
