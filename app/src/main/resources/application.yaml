@@ -6,3 +6,6 @@ server:
 springdoc:
   swagger-ui:
     path: /api-docs/index.html
+logging:
+  pattern:
+    level: "%5p [${spring.application.name:} %X{traceId:-}] "
