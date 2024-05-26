@@ -17,7 +17,7 @@ public class WishListUseCase implements WishListInputBoundary {
     private static final Logger log = LoggerFactory.getLogger(WishListInputBoundary.class);
 
     @Override
-    public void insertProducts(String clientId, InsertProductReqIn insertProductReqIn) {
+    public void insertProduct(String clientId, InsertProductReqIn insertProductReqIn) {
         log.info("WishListUseCase.insertProducts(clientId, insertProductReqIn: {})", insertProductReqIn);
     }
 

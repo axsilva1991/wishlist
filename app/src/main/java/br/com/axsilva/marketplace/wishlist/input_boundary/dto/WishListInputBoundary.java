@@ -6,8 +6,8 @@ import br.com.axsilva.marketplace.wishlist.input_boundary.dto.response.ListProdu
 import java.util.UUID;
 
 public interface WishListInputBoundary {
-    public void insertProducts(String clientId, InsertProductReqIn insertProductReqIn);
-    public ListProductsResInDto getProductsBy(String clientId);
-    public void checkIfIsOnBy(String clientId, UUID referenceCode);
-    public void deleteProductBy(String clientId, UUID referenceCode);
+    void insertProduct(String clientId, InsertProductReqIn insertProductReqIn);
+    ListProductsResInDto getProductsBy(String clientId);
+    void checkIfIsOnBy(String clientId, UUID referenceCode);
+    void deleteProductBy(String clientId, UUID referenceCode);
 }

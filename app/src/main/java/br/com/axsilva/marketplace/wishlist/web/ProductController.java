@@ -38,7 +38,7 @@ public class ProductController implements WishListOpenApi {
             @PathVariable("clientId") String clientId,
             @RequestBody InsertProductReqWeb insertProductReqWeb) {
         log.info("POST - {}/{clientId}", PATH);
-        wishListInputBoundary.insertProducts(
+        wishListInputBoundary.insertProduct(
                 clientId,
                 InsertProductReqInputBoundaryMapper.INSTANCE.webDtoToInputBoundary(insertProductReqWeb));
         return new ResponseEntity(HttpStatus.CREATED);
