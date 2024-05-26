@@ -33,7 +33,7 @@ class ProductControllerTest {
 
         ResponseEntity<ListProductsResWebDto> responseEntity = productController.getProductsBy("testClientId");
 
-        assertEquals(200, responseEntity.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @Test
@@ -41,7 +41,7 @@ class ProductControllerTest {
 
         ResponseEntity<HttpStatus> responseEntity = productController.checkIfIsOnBy("testClientId", productReferenceCode);
 
-        assertEquals(200, responseEntity.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @Test
@@ -49,7 +49,7 @@ class ProductControllerTest {
 
         ResponseEntity<HttpStatus> responseEntity = productController.deleteProductBy("testClientId", productReferenceCode);
 
-        assertEquals(204, responseEntity.getStatusCodeValue());
+        assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
 
     }
 
@@ -61,7 +61,7 @@ class ProductControllerTest {
                 "clientId",
                 insertProductReqWeb);
 
-        assertEquals(201, responseEntity.getStatusCodeValue());
+        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
 
     }
 
