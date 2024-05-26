@@ -1,4 +1,8 @@
 spring:
+  data:
+    mongodb:
+      uri: mongodb://${DATA_BASE_HOST:localhost}:27017
+      database: wishlist
   application:
     name: wishlist
 server:

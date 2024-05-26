@@ -1,5 +1,11 @@
 package br.com.axsilva.marketplace.wishlist.web;
 
+import br.com.axsilva.marketplace.wishlist.input_boundary.dto.WishListInputBoundary;
+import br.com.axsilva.marketplace.wishlist.web.dto.InsertProductReqWeb;
+import br.com.axsilva.marketplace.wishlist.web.dto.response.ListProductsResWebDto;
+import br.com.axsilva.marketplace.wishlist.web.mapper.InsertProductReqInputBoundaryMapper;
+import br.com.axsilva.marketplace.wishlist.web.mapper.ListProductsResWebMapper;
+import br.com.axsilva.marketplace.wishlist.web.openapi.WishListOpenApi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -11,37 +17,56 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.UUID;
+
+@RequestMapping("/v1/wishlist/products")
 @RestController
-public class ProductController {
+public class ProductController implements WishListOpenApi {
     private static final Logger log = LoggerFactory.getLogger(ProductController.class);
+    private static final String PATH = "/v1/wishlist/products";
+    private final WishListInputBoundary wishListInputBoundary;
 
-    @PostMapping("/v1/products/{clientId}")
-    public ResponseEntity<HttpStatus> insertProducts(@RequestBody String clientId) {
-        log.info("POST - /v1/products/{clientId}");
+    public ProductController(WishListInputBoundary wishListInputBoundary) {
+        this.wishListInputBoundary = wishListInputBoundary;
+    }
+
+
+    @PostMapping("/{clientId}")
+    public ResponseEntity<HttpStatus> insertProduct(
+            @PathVariable("clientId") String clientId,
+            @RequestBody InsertProductReqWeb insertProductReqWeb) {
+        log.info("POST - {}/{clientId}", PATH);
+        wishListInputBoundary.insertProducts(
+                clientId,
+                InsertProductReqInputBoundaryMapper.INSTANCE.webDtoToInputBoundary(insertProductReqWeb));
         return new ResponseEntity(HttpStatus.CREATED);
     }
-    @GetMapping("/v1/products/{clientId}")
-    public ResponseEntity<String> getProductsBy(@PathVariable("clientId") String clientId) {
-        log.info("GET - /v1/products/{clientId}");
+
+    @GetMapping("/{clientId}")
+    public ResponseEntity<ListProductsResWebDto> getProductsBy(@PathVariable("clientId") String clientId) {
+        log.info("GET - {}/{clientId}", PATH);
         return ResponseEntity.ok()
-                .body("products");
+                .body(ListProductsResWebMapper.INSTANCE.inputBoundaryToWebDto(wishListInputBoundary.getProductsBy(clientId)));
     }
 
-    @GetMapping("/v1/products")
-    public ResponseEntity<String> getProductBy(
+    @GetMapping
+    public ResponseEntity<HttpStatus> checkIfIsOnBy(
             @RequestParam("clientId") String clientId,
-            @RequestParam("productId") String productId) {
-        log.info("GET - /v1/products/{clientId}?productId={}", productId);
-        return ResponseEntity.ok()
-                .body("product");
+            @RequestParam("productId") UUID productReferenceCode) {
+        log.info("GET - {}/{clientId}?productReferenceCode={}", PATH, productReferenceCode);
+        wishListInputBoundary.checkIfIsOnBy(clientId, productReferenceCode);
+        return new ResponseEntity(HttpStatus.OK);
+
     }
 
-    @DeleteMapping("/v1/products/{clientId}")
+    @DeleteMapping("/{clientId}")
     public ResponseEntity<HttpStatus> deleteProductBy(
             @PathVariable("clientId") String clientId,
-            @RequestParam("productId") String productId) {
-        log.info("DELETE - /v1/products/{clientId}?productId={}", productId);
+            @RequestParam("productId") UUID productReferenceCode) {
+        log.info("DELETE - {}/{clientId}?productReferenceCode={}", PATH, productReferenceCode);
+        wishListInputBoundary.deleteProductBy(clientId, productReferenceCode);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
