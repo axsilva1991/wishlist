@@ -24,6 +24,7 @@ This is software responsible for managing wishlist of products for Axsilva Marke
 * Docker Compose
 * RestAPI Client's for example: (Postman/Insomnia)
 * Access Internet for gradlew dependency's download
+* Communication port <b>8081</b> released on the computer
 
 # Usage
 ## Run the app anyway
@@ -48,8 +49,11 @@ After run this commands access [swagger](http://localhost:8081/api-docs/swagger-
 
 ## Test
 
-This project use [Karate] https://github.com/karatelabs/karate to integration test and excecute scenarios you need to start application and run commands start a integration tests image.
+This project use [Karate Framework](https://github.com/karatelabs/karate) to integration tests and excecute scenarios you need to start application and run commands start a integration tests image.
 
+>**Atention** <br>Because it is a integration test, it's work's if you run one time! <br>
+>if you need to re-execute it, it is recommended to clean the database and restart the application.
+> 
 ### Run
 ```bash
 cd 
