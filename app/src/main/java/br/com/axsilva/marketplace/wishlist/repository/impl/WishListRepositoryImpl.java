@@ -3,8 +3,10 @@ package br.com.axsilva.marketplace.wishlist.repository.impl;
 import br.com.axsilva.marketplace.wishlist.output_boundary.WishListOutPutBoundary;
 import br.com.axsilva.marketplace.wishlist.output_boundary.dto.request.InsertProductReqOutDto;
 import br.com.axsilva.marketplace.wishlist.output_boundary.dto.response.ListProductsResOutDto;
+import br.com.axsilva.marketplace.wishlist.repository.entity.ProductEntity;
 import br.com.axsilva.marketplace.wishlist.repository.entity.WishListEntity;
 import br.com.axsilva.marketplace.wishlist.repository.exception.GenericRepositoryException;
+import br.com.axsilva.marketplace.wishlist.repository.exception.ProductAlreadySelectedException;
 import br.com.axsilva.marketplace.wishlist.repository.exception.ProductEntityNotFoundException;
 import br.com.axsilva.marketplace.wishlist.repository.exception.WishListEntityNotFoundException;
 import br.com.axsilva.marketplace.wishlist.repository.mapper.InsertProductResEntityMapper;
@@ -15,6 +17,8 @@ import com.mongodb.MongoException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class WishListRepositoryImpl implements WishListOutPutBoundary {
@@ -34,10 +38,10 @@ public class WishListRepositoryImpl implements WishListOutPutBoundary {
         try {
             log.info("WishListRepositoryImpl.insertProducts(clientId, insertProductReqIn: {})", insertProductReqOut);
             var wishlist = getByClientId(clientId);
-            var wishlistProducts = getByClientId(clientId).products();
+            if(filterProductsWith(insertProductReqOut.referenceCode(), wishlist).size() > 0)
+                throw new ProductAlreadySelectedException();
             wishlist.products().add(new InsertProductResEntityMapper().inputDtoToEntity(insertProductReqOut));
             iWishListRepository.save(wishlist);
-            //TODO Include ReferenceCodeDuplicated
         } catch (WishListEntityNotFoundException e) {
             iWishListRepository.insert(new InsertWishListReqEntityMapper().inputDtoToEntity(clientId, insertProductReqOut));
         } catch (MongoException e) {
@@ -56,10 +60,7 @@ public class WishListRepositoryImpl implements WishListOutPutBoundary {
     public void checkIfIsOnBy(String clientId, String referenceCode) throws GenericRepositoryException {
         try {
             log.info("WishListRepositoryImpl.checkIfIsOnBy({clientId}, referenceCode: {})", referenceCode);
-            boolean hasProduct = !getByClientId(clientId).products()
-                    .stream()
-                    .filter(productEntity -> productEntity.referenceCode().equals(referenceCode)).toList().isEmpty();
-            if (!hasProduct) {
+            if (filterProductsWith(referenceCode, getByClientId(clientId)).isEmpty()) {
                 log.error("WishListRepositoryImpl.checkIfIsOnBy({clientId}, referenceCode: {}) product isn't selected.", referenceCode);
                 throw new ProductEntityNotFoundException();
             }
@@ -86,12 +87,11 @@ public class WishListRepositoryImpl implements WishListOutPutBoundary {
     @Override
     public void deleteProductBy(String clientId, String referenceCode) {
         try {
+            log.info("WishListUseCase.deleteProductBy({clientId}, referenceCode: {}, is sucess)", referenceCode);
             var wishlist = getByClientId(clientId);
-            var productsToRemove = wishlist.products().stream().filter(productEntity -> productEntity.referenceCode().equals(referenceCode)).toList();
-            if (productsToRemove.size() > 0) {
-                wishlist.products().removeAll(wishlist.products().stream().filter(productEntity -> productEntity.referenceCode().equals(referenceCode)).toList());
+            if (filterProductsWith(referenceCode, wishlist).size() > 0) {
+                wishlist.products().removeAll(filterProductsWith(referenceCode, wishlist));
                 iWishListRepository.save(wishlist);
-                log.info("WishListUseCase.deleteProductBy({clientId}, referenceCode: {})", referenceCode);
             } else {
                 log.error("WishListUseCase.deleteProductBy({clientId}, referenceCode: {}), products isn't finded for this reference", referenceCode);
                 throw new ProductEntityNotFoundException();
@@ -100,5 +100,9 @@ public class WishListRepositoryImpl implements WishListOutPutBoundary {
             log.error("WishListRepositoryImpl.deleteProductBy({clientId}) An error occurred when deleteProductBy on database.)");
             throw new GenericRepositoryException();
         }
+    }
+
+    private static List<ProductEntity> filterProductsWith(String referenceCode, WishListEntity wishlist) {
+        return wishlist.products().stream().filter(productEntity -> productEntity.referenceCode().equals(referenceCode)).toList();
     }
 }
