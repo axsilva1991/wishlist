@@ -6,6 +6,7 @@ import br.com.axsilva.marketplace.wishlist.web.dto.response.ListProductsResWebDt
 import br.com.axsilva.marketplace.wishlist.web.mapper.InsertProductReqInputBoundaryMapper;
 import br.com.axsilva.marketplace.wishlist.web.mapper.ListProductsResWebMapper;
 import br.com.axsilva.marketplace.wishlist.web.openapi.WishListOpenApi;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -52,7 +53,7 @@ public class ProductController implements WishListOpenApi {
     @GetMapping("/selected")
     public ResponseEntity<HttpStatus> checkIfIsOnBy(
             @RequestParam("clientId") String clientId,
-            @RequestParam("productId") String productReferenceCode) {
+            @RequestParam("productReferenceCode") String productReferenceCode) {
         log.info("GET - {}/exists/{clientId}?productReferenceCode={}", PATH, productReferenceCode);
         wishListInputBoundary.checkIfIsOnBy(clientId, productReferenceCode);
         return new ResponseEntity(HttpStatus.OK);
@@ -61,7 +62,7 @@ public class ProductController implements WishListOpenApi {
     @DeleteMapping("/{clientId}")
     public ResponseEntity<HttpStatus> deleteProductBy(
             @PathVariable("clientId") String clientId,
-            @RequestParam("productId") String productReferenceCode) {
+            @RequestParam("productReferenceCode") String productReferenceCode) {
         log.info("DELETE - {}/{clientId}?productReferenceCode={}", PATH, productReferenceCode);
         wishListInputBoundary.deleteProductBy(clientId, productReferenceCode);
         return new ResponseEntity(HttpStatus.NO_CONTENT);

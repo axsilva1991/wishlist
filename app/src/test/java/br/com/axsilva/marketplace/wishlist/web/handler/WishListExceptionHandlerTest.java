@@ -7,10 +7,13 @@ import br.com.axsilva.marketplace.wishlist.usecase.exception.ProductSelectedExce
 import br.com.axsilva.marketplace.wishlist.usecase.exception.ValidateProductNotFoundException;
 import br.com.axsilva.marketplace.wishlist.usecase.exception.WishListNotFoundException;
 import br.com.axsilva.marketplace.wishlist.web.dto.response.ErrorResWebDto;
+import jakarta.validation.UnexpectedTypeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -31,9 +34,19 @@ class WishListExceptionHandlerTest {
         ErrorResWebDto errorResWebDto = responseEntity.getBody();
         assertNotNull(errorResWebDto);
         assertEquals("INCONSISTENCE_REPORTED_DATA", errorResWebDto.code());
-        assertEquals("inconsistency in the data reported", errorResWebDto.title());
+        assertEquals("Inconsistency in the data reported", errorResWebDto.title());
     }
 
+    @Test
+    public void testHandleHandleUnexpectedTypeException() {
+        ResponseEntity<ErrorResWebDto> responseEntity = handler.handleUnexpectedTypeException(
+                new UnexpectedTypeException("Illegal State"), null);
+        assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, responseEntity.getStatusCode());
+        ErrorResWebDto errorResWebDto = responseEntity.getBody();
+        assertNotNull(errorResWebDto);
+        assertEquals("PRODUCTS_DATA_NOT_SENDED", errorResWebDto.code());
+        assertEquals("Please to verify products data sent and try again later.", errorResWebDto.title());
+    }
     @Test
     public void testHandleProductSelectedException() {
         ResponseEntity<ErrorResWebDto> responseEntity = handler.handleUnpronounceableEntity(

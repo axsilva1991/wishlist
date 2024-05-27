@@ -228,7 +228,7 @@ public interface WishListOpenApi {
             @Parameter(description = "Identification code of client", required = true) @Valid @NotNull(message = "Required field")
             @PathVariable("clientId") String clientId,
             @Parameter(description = "Identification code of product selected", required = true) @Valid @NotNull(message = "Required field")
-            @RequestParam("productId") String productReferenceCode);
+            @RequestParam("productReferenceCode") String productReferenceCode);
 
 
 
@@ -289,6 +289,6 @@ public interface WishListOpenApi {
             @Parameter(description = "Identification code of client", required = true) @Valid @NotNull(message = "Required field")
             @RequestParam("clientId") String clientId,
             @Parameter(description = "Identification code of product selected", required = true) @Valid @NotNull(message = "Required field")
-            @RequestParam("productId") String productReferenceCode);
+            @RequestParam("productReferenceCode") String productReferenceCode);
 
 }

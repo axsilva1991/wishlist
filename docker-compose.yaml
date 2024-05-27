@@ -1,10 +1,13 @@
-version: '3.8'
+version: '3.9'
 services:
   backend:
     build:
       context: .
       args:
         - JAR_FILE=./app/build/libs/app.jar
+    container_name: backend
+    depends_on:
+      - mongodb
     ports:
       - "8081:8081"
   mongodb:
@@ -16,5 +19,5 @@ services:
     volumes:
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
 networks:
-  node-network:
-    driver: bridge
+  wishlist:
+    external: true

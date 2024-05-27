@@ -48,6 +48,15 @@ After run this commands access [swagger](http://localhost:8081/api-docs/swagger-
 
 ## Test
 
+This project use [Karate] https://github.com/karatelabs/karate to integration test and excecute scenarios you need to start application and run commands start a integration tests image.
+
+### Run
+```bash
+cd 
+$ cd ./integration-test
+$ docker-compose up --build -d
+
+```
 
 ## Documentation
 

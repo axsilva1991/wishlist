@@ -1,0 +1,13 @@
+version: '3.9'
+services:
+  integration-test:
+    build:
+      context: .
+      args:
+        - JAR_FILE=./app/build/libs/app.jar
+    container_name: integration-test
+    networks:
+      - wishlist_default
+networks:
+  wishlist_default:
+    external: true

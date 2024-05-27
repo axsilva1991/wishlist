@@ -10,11 +10,15 @@ import br.com.axsilva.marketplace.wishlist.usecase.exception.ProductSelectedExce
 import br.com.axsilva.marketplace.wishlist.usecase.exception.ValidateProductNotFoundException;
 import br.com.axsilva.marketplace.wishlist.usecase.exception.WishListNotFoundException;
 import br.com.axsilva.marketplace.wishlist.web.dto.response.ErrorResWebDto;
+import jakarta.validation.ConstraintDeclarationException;
+import jakarta.validation.UnexpectedTypeException;
+import jakarta.validation.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
 @ControllerAdvice
 public class WishListExceptionHandler {
@@ -23,7 +27,7 @@ public class WishListExceptionHandler {
             RuntimeException ex, WebRequest request) {
         return new ResponseEntity<ErrorResWebDto>(new ErrorResWebDto(
                 "INCONSISTENCE_REPORTED_DATA",
-                "inconsistency in the data reported"),
+                "Inconsistency in the data reported"),
                 HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
@@ -41,6 +45,15 @@ public class WishListExceptionHandler {
         return new ResponseEntity<ErrorResWebDto>(new ErrorResWebDto(
                 "PRODUCT_LIMIT_REACHED",
                 "Product limit reached, please verify your wishlist to insert new product's."),
+                HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(value = {UnexpectedTypeException.class})
+    protected ResponseEntity<ErrorResWebDto> handleUnexpectedTypeException(
+            UnexpectedTypeException ex, WebRequest request) {
+        return new ResponseEntity<ErrorResWebDto>(new ErrorResWebDto(
+                "PRODUCTS_DATA_NOT_SENDED",
+                "Please to verify products data sent and try again later."),
                 HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
@@ -74,7 +87,7 @@ public class WishListExceptionHandler {
         return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
     }
 
-    @ExceptionHandler(value = {BusinessException.class, CustomException.class})
+    @ExceptionHandler(value = {BusinessException.class, ValidationException.class, CustomException.class, HandlerMethodValidationException.class})
     protected ResponseEntity<ErrorResWebDto> handleBusinessError(
             CustomException ex, WebRequest request) {
         return new ResponseEntity<ErrorResWebDto>(new ErrorResWebDto(
@@ -91,4 +104,5 @@ public class WishListExceptionHandler {
                 "The server encountered an unexpected condition, please try again later."),
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 }
