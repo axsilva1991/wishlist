@@ -8,6 +8,7 @@ import br.com.axsilva.marketplace.wishlist.repository.exception.GenericRepositor
 import br.com.axsilva.marketplace.wishlist.repository.exception.ProductAlreadySelectedException;
 import br.com.axsilva.marketplace.wishlist.repository.exception.ProductEntityNotFoundException;
 import br.com.axsilva.marketplace.wishlist.repository.exception.WishListEntityNotFoundException;
+import br.com.axsilva.marketplace.wishlist.usecase.exception.BusinessException;
 import br.com.axsilva.marketplace.wishlist.usecase.exception.InternalErrorException;
 import br.com.axsilva.marketplace.wishlist.usecase.exception.ProductNotFoundException;
 import br.com.axsilva.marketplace.wishlist.usecase.exception.WishListNotFoundException;
@@ -37,7 +38,7 @@ public class WishListUseCase implements WishListInputBoundary {
                     InsertProductReqOutputBoundaryMapper.INSTANCE.inputDtoToOutputBoundary(insertProductReqInDto)
             );
         } catch (ProductAlreadySelectedException e) {
-            throw new InternalErrorException();
+            throw new BusinessException();
         } catch (GenericRepositoryException e) {
             throw new InternalErrorException();
         }
