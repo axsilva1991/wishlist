@@ -4,16 +4,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
 import java.util.UUID;
 
-@Document(collection = "wishList")
-public record WishListEntity(
+@Document(collection = "product")
+public record ProductEntity(
         @Id
-        @JsonProperty("id")
         UUID id,
-        @JsonProperty("clientId")
-        String clientId,
-        @JsonProperty("products")
-        List<ProductEntity> products) {
+        @JsonProperty("referenceCode")
+        String referenceCode,
+        @JsonProperty("referenceStore")
+        String referenceStore,
+        @JsonProperty("selectedPrice")
+        Double selectedPrice) {
 }

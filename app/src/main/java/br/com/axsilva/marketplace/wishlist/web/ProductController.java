@@ -1,6 +1,6 @@
 package br.com.axsilva.marketplace.wishlist.web;
 
-import br.com.axsilva.marketplace.wishlist.input_boundary.dto.WishListInputBoundary;
+import br.com.axsilva.marketplace.wishlist.input_boundary.WishListInputBoundary;
 import br.com.axsilva.marketplace.wishlist.web.dto.InsertProductReqWeb;
 import br.com.axsilva.marketplace.wishlist.web.dto.response.ListProductsResWebDto;
 import br.com.axsilva.marketplace.wishlist.web.mapper.InsertProductReqInputBoundaryMapper;
@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.UUID;
 
 @RequestMapping("/v1/wishlist/products")
 @RestController
@@ -51,11 +49,11 @@ public class ProductController implements WishListOpenApi {
                 .body(ListProductsResWebMapper.INSTANCE.inputBoundaryToWebDto(wishListInputBoundary.getProductsBy(clientId)));
     }
 
-    @GetMapping
+    @GetMapping("/selected")
     public ResponseEntity<HttpStatus> checkIfIsOnBy(
             @RequestParam("clientId") String clientId,
-            @RequestParam("productId") UUID productReferenceCode) {
-        log.info("GET - {}/{clientId}?productReferenceCode={}", PATH, productReferenceCode);
+            @RequestParam("productId") String productReferenceCode) {
+        log.info("GET - {}/exists/{clientId}?productReferenceCode={}", PATH, productReferenceCode);
         wishListInputBoundary.checkIfIsOnBy(clientId, productReferenceCode);
         return new ResponseEntity(HttpStatus.OK);
 
@@ -64,7 +62,7 @@ public class ProductController implements WishListOpenApi {
     @DeleteMapping("/{clientId}")
     public ResponseEntity<HttpStatus> deleteProductBy(
             @PathVariable("clientId") String clientId,
-            @RequestParam("productId") UUID productReferenceCode) {
+            @RequestParam("productId") String productReferenceCode) {
         log.info("DELETE - {}/{clientId}?productReferenceCode={}", PATH, productReferenceCode);
         wishListInputBoundary.deleteProductBy(clientId, productReferenceCode);
         return new ResponseEntity(HttpStatus.NO_CONTENT);

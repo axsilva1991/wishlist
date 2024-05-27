@@ -16,7 +16,7 @@ public record ListProductResWebDto(
         @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED,
                 description = "Price selected when the product was added to the wish list."
         )
-        Double priceSelected
+        Double selectedPrice
 ) {
 
 }

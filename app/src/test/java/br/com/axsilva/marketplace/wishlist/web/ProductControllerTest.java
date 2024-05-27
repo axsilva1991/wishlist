@@ -1,6 +1,6 @@
 package br.com.axsilva.marketplace.wishlist.web;
 
-import br.com.axsilva.marketplace.wishlist.input_boundary.dto.WishListInputBoundary;
+import br.com.axsilva.marketplace.wishlist.input_boundary.WishListInputBoundary;
 import br.com.axsilva.marketplace.wishlist.web.dto.InsertProductReqWeb;
 import br.com.axsilva.marketplace.wishlist.web.dto.response.ListProductsResWebDto;
 import br.com.axsilva.marketplace.wishlist.web.mapper.InsertProductReqInputBoundaryMapper;
@@ -31,7 +31,7 @@ class ProductControllerTest {
     @InjectMocks
     private ProductController productController;
 
-    private final UUID productReferenceCode = UUID.randomUUID();
+    private final String productReferenceCode = UUID.randomUUID().toString();
 
     InsertProductReqWeb insertProductReqWeb = new InsertProductReqWeb("1", "3", Double.MIN_VALUE);
 
@@ -71,7 +71,7 @@ class ProductControllerTest {
     }
 
     @Test
-    void insertProducts_when_insert_product_by_client_and_product_id() {
+    void insertProduct_when_insert_product_by_client_and_product_id() {
 
         doNothing().when(wishListInputBoundary).insertProduct(testClientId,
                 InsertProductReqInputBoundaryMapper.INSTANCE.webDtoToInputBoundary(insertProductReqWeb));

@@ -4,6 +4,6 @@ import java.util.List;
 
 public record ListProductsResInDto(
         String clientId,
-        List<ListProductResInDto> listProductResInDto
+        List<ListProductResInDto> products
 ) {
 }

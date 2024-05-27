@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.UUID;
-
 public interface WishListOpenApi {
 
     @Operation(tags = "Api - WishList v1.0.0",
@@ -230,7 +228,7 @@ public interface WishListOpenApi {
             @Parameter(description = "Identification code of client", required = true) @Valid @NotNull(message = "Required field")
             @PathVariable("clientId") String clientId,
             @Parameter(description = "Identification code of product selected", required = true) @Valid @NotNull(message = "Required field")
-            @RequestParam("productId") UUID productReferenceCode);
+            @RequestParam("productId") String productReferenceCode);
 
 
 
@@ -291,6 +289,6 @@ public interface WishListOpenApi {
             @Parameter(description = "Identification code of client", required = true) @Valid @NotNull(message = "Required field")
             @RequestParam("clientId") String clientId,
             @Parameter(description = "Identification code of product selected", required = true) @Valid @NotNull(message = "Required field")
-            @RequestParam("productId") UUID productReferenceCode);
+            @RequestParam("productId") String productReferenceCode);
 
 }
