@@ -64,3 +64,11 @@ After finalize tests this image its stoped.
 ## Documentation
 
 This project Using OpenAPI 3.0 specification if you whant to see a doc open [swagger-ui](http://localhost:8081/api-docs/swagger-ui/index.html) in your Browser
+
+## Continuous integration
+
+This application used GitHub actions to inspect and improve code. Your steps are:
+* Build Gradle (Build application and run unit tests)
+* [Upload code to Codecov](https://codecov.io/github/axsilva1991/wishlist)
+* Build Docker Machine
+* Dependency Check Vulnerability's of dependencies.
