@@ -29,8 +29,7 @@ This is software responsible for managing wishlist of products for Axsilva Marke
 # Usage
 ## Run the app anyway
 
-<details>
-<summary><b>Docker</b></summary>
+## Docker
 
 ### Run
 ```bash
@@ -45,7 +44,6 @@ $ docker-compose down
 
 After run this commands access [swagger](http://localhost:8081/api-docs/swagger-ui/index.html) to validate application it's ok.
 
-</details>
 
 ## Test
 
@@ -56,7 +54,7 @@ This project use [Karate Framework](https://github.com/karatelabs/karate) to int
 > 
 ### Run
 ```bash
-cd 
+
 $ cd ./integration-test
 $ docker-compose up --build
 
