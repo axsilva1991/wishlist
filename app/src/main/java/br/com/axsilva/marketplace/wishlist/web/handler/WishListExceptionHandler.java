@@ -4,6 +4,7 @@ import br.com.axsilva.marketplace.wishlist.usecase.exception.BusinessException;
 import br.com.axsilva.marketplace.wishlist.usecase.exception.CustomException;
 import br.com.axsilva.marketplace.wishlist.usecase.exception.InternalErrorException;
 import br.com.axsilva.marketplace.wishlist.usecase.exception.ProductDeletedException;
+import br.com.axsilva.marketplace.wishlist.usecase.exception.ProductLimitException;
 import br.com.axsilva.marketplace.wishlist.usecase.exception.ProductNotFoundException;
 import br.com.axsilva.marketplace.wishlist.usecase.exception.ProductSelectedException;
 import br.com.axsilva.marketplace.wishlist.usecase.exception.ValidateProductNotFoundException;
@@ -32,6 +33,14 @@ public class WishListExceptionHandler {
         return new ResponseEntity<ErrorResWebDto>(new ErrorResWebDto(
                 "PRODUCT_SELECTED_ERROR",
                 "This product already selected."),
+                HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+    @ExceptionHandler(value = {ProductLimitException.class})
+    protected ResponseEntity<ErrorResWebDto> handleProductLimitException(
+            ProductSelectedException ex, WebRequest request) {
+        return new ResponseEntity<ErrorResWebDto>(new ErrorResWebDto(
+                "PRODUCT_LIMIT_REACHED",
+                "Product limit reached, please verify your wishlist to insert new product's."),
                 HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
@@ -79,7 +88,7 @@ public class WishListExceptionHandler {
             RuntimeException ex, WebRequest request) {
         return new ResponseEntity<ErrorResWebDto>(new ErrorResWebDto(
                 "INTERNAL_SERVER_ERROR",
-                "the server encountered an unexpected condition, please try again later."),
+                "The server encountered an unexpected condition, please try again later."),
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

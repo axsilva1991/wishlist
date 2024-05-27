@@ -56,7 +56,6 @@ public class ProductController implements WishListOpenApi {
         log.info("GET - {}/exists/{clientId}?productReferenceCode={}", PATH, productReferenceCode);
         wishListInputBoundary.checkIfIsOnBy(clientId, productReferenceCode);
         return new ResponseEntity(HttpStatus.OK);
-
     }
 
     @DeleteMapping("/{clientId}")

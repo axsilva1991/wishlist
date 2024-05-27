@@ -8,6 +8,7 @@ import br.com.axsilva.marketplace.wishlist.repository.entity.WishListEntity;
 import br.com.axsilva.marketplace.wishlist.repository.exception.GenericRepositoryException;
 import br.com.axsilva.marketplace.wishlist.repository.exception.ProductAlreadySelectedException;
 import br.com.axsilva.marketplace.wishlist.repository.exception.ProductEntityNotFoundException;
+import br.com.axsilva.marketplace.wishlist.repository.exception.WishHasTwentyProductRegisteredException;
 import br.com.axsilva.marketplace.wishlist.repository.exception.WishListEntityNotFoundException;
 import br.com.axsilva.marketplace.wishlist.repository.mapper.InsertProductResEntityMapper;
 import br.com.axsilva.marketplace.wishlist.repository.mapper.InsertProductResOutputBoundaryMapper;
@@ -38,8 +39,14 @@ public class WishListRepositoryImpl implements WishListOutPutBoundary {
         try {
             log.info("WishListRepositoryImpl.insertProducts(clientId, insertProductReqIn: {})", insertProductReqOut);
             var wishlist = getByClientId(clientId);
-            if(filterProductsWith(insertProductReqOut.referenceCode(), wishlist).size() > 0)
+            if(wishlist.products().size() == 20){
+                log.error("WishListRepositoryImpl.insertProducts(clientId, insertProductReqIn: {}), constraint = WishHasTwentyProductRegisteredException", insertProductReqOut);
+                throw new WishHasTwentyProductRegisteredException();
+            }
+            if(filterProductsWith(insertProductReqOut.referenceCode(), wishlist).size() > 0){
+                log.error("WishListRepositoryImpl.insertProducts(clientId, insertProductReqIn: {}), constraint = ProductAlreadySelectedException", insertProductReqOut);
                 throw new ProductAlreadySelectedException();
+            }
             wishlist.products().add(new InsertProductResEntityMapper().inputDtoToEntity(insertProductReqOut));
             iWishListRepository.save(wishlist);
         } catch (WishListEntityNotFoundException e) {

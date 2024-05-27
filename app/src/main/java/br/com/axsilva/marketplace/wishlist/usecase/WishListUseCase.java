@@ -7,10 +7,11 @@ import br.com.axsilva.marketplace.wishlist.output_boundary.WishListOutPutBoundar
 import br.com.axsilva.marketplace.wishlist.repository.exception.GenericRepositoryException;
 import br.com.axsilva.marketplace.wishlist.repository.exception.ProductAlreadySelectedException;
 import br.com.axsilva.marketplace.wishlist.repository.exception.ProductEntityNotFoundException;
+import br.com.axsilva.marketplace.wishlist.repository.exception.WishHasTwentyProductRegisteredException;
 import br.com.axsilva.marketplace.wishlist.repository.exception.WishListEntityNotFoundException;
 import br.com.axsilva.marketplace.wishlist.usecase.exception.InternalErrorException;
 import br.com.axsilva.marketplace.wishlist.usecase.exception.ProductDeletedException;
-import br.com.axsilva.marketplace.wishlist.usecase.exception.ProductNotFoundException;
+import br.com.axsilva.marketplace.wishlist.usecase.exception.ProductLimitException;
 import br.com.axsilva.marketplace.wishlist.usecase.exception.ProductSelectedException;
 import br.com.axsilva.marketplace.wishlist.usecase.exception.ValidateProductNotFoundException;
 import br.com.axsilva.marketplace.wishlist.usecase.exception.WishListNotFoundException;
@@ -42,6 +43,10 @@ public class WishListUseCase implements WishListInputBoundary {
         } catch (ProductAlreadySelectedException e) {
             log.error("WishListUseCase.insertProducts(clientId, insertProductReqIn: {}), ProductAlreadySelectedException {}", insertProductReqInDto, e.getStackTrace().toString());
             throw new ProductSelectedException();
+        } catch (WishHasTwentyProductRegisteredException e) {
+            log.error("WishListUseCase.insertProducts(clientId, insertProductReqIn: {}), WishHasTwentyProductRegisteredException {}", insertProductReqInDto, e.getStackTrace().toString());
+            throw new ProductLimitException();
+
         } catch (GenericRepositoryException e) {
             log.error("WishListUseCase.insertProducts(clientId, insertProductReqIn: {}), GenericRepositoryException {}", insertProductReqInDto, e.getStackTrace().toString());
             throw new InternalErrorException();
