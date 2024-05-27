@@ -8,9 +8,11 @@ import br.com.axsilva.marketplace.wishlist.repository.exception.GenericRepositor
 import br.com.axsilva.marketplace.wishlist.repository.exception.ProductAlreadySelectedException;
 import br.com.axsilva.marketplace.wishlist.repository.exception.ProductEntityNotFoundException;
 import br.com.axsilva.marketplace.wishlist.repository.exception.WishListEntityNotFoundException;
-import br.com.axsilva.marketplace.wishlist.usecase.exception.BusinessException;
 import br.com.axsilva.marketplace.wishlist.usecase.exception.InternalErrorException;
+import br.com.axsilva.marketplace.wishlist.usecase.exception.ProductDeletedException;
 import br.com.axsilva.marketplace.wishlist.usecase.exception.ProductNotFoundException;
+import br.com.axsilva.marketplace.wishlist.usecase.exception.ProductSelectedException;
+import br.com.axsilva.marketplace.wishlist.usecase.exception.ValidateProductNotFoundException;
 import br.com.axsilva.marketplace.wishlist.usecase.exception.WishListNotFoundException;
 import br.com.axsilva.marketplace.wishlist.usecase.mapper.InsertProductReqOutputBoundaryMapper;
 import br.com.axsilva.marketplace.wishlist.usecase.mapper.ListProductsResInputBoundaryMapper;
@@ -38,8 +40,10 @@ public class WishListUseCase implements WishListInputBoundary {
                     InsertProductReqOutputBoundaryMapper.INSTANCE.inputDtoToOutputBoundary(insertProductReqInDto)
             );
         } catch (ProductAlreadySelectedException e) {
-            throw new BusinessException();
+            log.error("WishListUseCase.insertProducts(clientId, insertProductReqIn: {}), ProductAlreadySelectedException {}", insertProductReqInDto, e.getStackTrace().toString());
+            throw new ProductSelectedException();
         } catch (GenericRepositoryException e) {
+            log.error("WishListUseCase.insertProducts(clientId, insertProductReqIn: {}), GenericRepositoryException {}", insertProductReqInDto, e.getStackTrace().toString());
             throw new InternalErrorException();
         }
 
@@ -51,8 +55,10 @@ public class WishListUseCase implements WishListInputBoundary {
             log.info("WishListUseCase.getProductBy(clientId)");
             return ListProductsResInputBoundaryMapper.INSTANCE.outputBoundaryToInput(wishListOutputBoundary.getProductsBy(clientId));
         } catch (WishListEntityNotFoundException e) {
+            log.error("WishListUseCase.getProductBy(clientId), WishListEntityNotFoundException {}", e.getStackTrace().toString());
             throw new WishListNotFoundException();
         } catch (GenericRepositoryException e) {
+            log.error("WishListUseCase.getProductBy(clientId), GenericRepositoryException {}", e.getStackTrace().toString());
             throw new InternalErrorException();
         }
     }
@@ -63,15 +69,22 @@ public class WishListUseCase implements WishListInputBoundary {
             log.info("WishListUseCase.validateIfSelectedBy({clientId}, referenceCode: {})", referenceCode);
             wishListOutputBoundary.checkIfIsOnBy(clientId, referenceCode);
         } catch (ProductEntityNotFoundException e) {
-            throw new ProductNotFoundException();
+            log.error("WishListUseCase.validateIfSelectedBy({clientId}, referenceCode: {}) , ProductEntityNotFoundException {}", referenceCode,  e.getStackTrace().toString());
+            throw new ValidateProductNotFoundException();
         } catch (GenericRepositoryException e) {
+            log.error("WishListUseCase.validateIfSelectedBy({clientId}, referenceCode: {}) , GenericRepositoryException {}", referenceCode,  e.getStackTrace().toString());
             throw new InternalErrorException();
         }
     }
 
     @Override
     public void deleteProductBy(String clientId, String referenceCode) {
-        log.info("WishListUseCase.deleteProductBy({clientId}, referenceCode: {})", referenceCode);
-        wishListOutputBoundary.deleteProductBy(clientId, referenceCode);
+        try {
+            log.info("WishListUseCase.deleteProductBy({clientId}, referenceCode: {})", referenceCode);
+            wishListOutputBoundary.deleteProductBy(clientId, referenceCode);
+        } catch (ProductEntityNotFoundException e) {
+            log.error("WishListUseCase.deleteProductBy({clientId}, referenceCode: {}) , ProductEntityNotFoundException {}", referenceCode,  e.getStackTrace().toString());
+            throw new ProductDeletedException();
+        }
     }
 }

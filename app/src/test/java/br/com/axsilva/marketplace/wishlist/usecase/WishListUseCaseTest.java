@@ -8,7 +8,9 @@ import br.com.axsilva.marketplace.wishlist.repository.exception.ProductEntityNot
 import br.com.axsilva.marketplace.wishlist.repository.exception.WishListEntityNotFoundException;
 import br.com.axsilva.marketplace.wishlist.usecase.exception.BusinessException;
 import br.com.axsilva.marketplace.wishlist.usecase.exception.InternalErrorException;
+import br.com.axsilva.marketplace.wishlist.usecase.exception.ProductDeletedException;
 import br.com.axsilva.marketplace.wishlist.usecase.exception.ProductNotFoundException;
+import br.com.axsilva.marketplace.wishlist.usecase.exception.ValidateProductNotFoundException;
 import br.com.axsilva.marketplace.wishlist.usecase.exception.WishListNotFoundException;
 import br.com.axsilva.marketplace.wishlist.usecase.mapper.InsertProductReqOutputBoundaryMapper;
 import org.junit.jupiter.api.Test;
@@ -115,7 +117,7 @@ class WishListUseCaseTest {
 
         doThrow(ProductEntityNotFoundException.class).when(wishListOutPutBoundary).checkIfIsOnBy(clientId, referenceCode);
 
-        assertThrows(ProductNotFoundException.class, () -> wishListUseCase.checkIfIsOnBy(clientId, referenceCode));
+        assertThrows(ValidateProductNotFoundException.class, () -> wishListUseCase.checkIfIsOnBy(clientId, referenceCode));
 
         verify(wishListOutPutBoundary, times(1)).checkIfIsOnBy(clientId, referenceCode);
     }
@@ -124,6 +126,16 @@ class WishListUseCaseTest {
     void deleteProductBy_when_delete_product_by_client_and_product_id_Ok() {
 
         wishListUseCase.deleteProductBy(clientId, referenceCode);
+
+        verify(wishListOutPutBoundary, times(1)).deleteProductBy(clientId, referenceCode);
+    }
+
+    @Test
+    void deleteProductBy_when_delete_product_by_client_and_product_not_found() {
+
+        doThrow(ProductEntityNotFoundException.class).when(wishListOutPutBoundary).deleteProductBy(clientId, referenceCode);
+
+        assertThrows(ProductDeletedException.class, () -> wishListUseCase.deleteProductBy(clientId, referenceCode));
 
         verify(wishListOutPutBoundary, times(1)).deleteProductBy(clientId, referenceCode);
     }
