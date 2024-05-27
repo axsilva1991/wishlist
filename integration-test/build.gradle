@@ -1,0 +1,36 @@
+plugins {
+	id 'java'
+}
+
+group = 'br.com.axsilva.marketplace'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// Karate dependencies
+	testImplementation 'com.intuit.karate:karate-junit5:1.0.1'
+	testImplementation 'com.intuit.karate:karate-apache:0.9.6'
+}
+
+sourceSets {
+	test {
+		resources {
+			srcDir file('src/test/java')
+			exclude '**/*.java'
+		}
+	}
+}
+
+test {
+	useJUnitPlatform()
+}
