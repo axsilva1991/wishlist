@@ -59,7 +59,7 @@ $ cd ./integration-test
 $ docker-compose up --build
 
 ```
-After finalize tests this image its stoped.
+After finishing the tests, this image will be interrupted.
 
 ## Documentation
 
