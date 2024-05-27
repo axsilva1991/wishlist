@@ -1,4 +1,4 @@
-# wishlist-api-rest
+# Wishlist-api-rest
 
 <p>
     <a href="https://github.com/axsilva1991/wishlist/actions">
