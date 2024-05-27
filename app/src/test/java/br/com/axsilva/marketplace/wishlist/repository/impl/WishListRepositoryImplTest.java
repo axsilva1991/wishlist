@@ -60,6 +60,23 @@ class WishListRepositoryImplTest {
     }
 
     @Test
+    void insertProduct_when_the_client_already_created() {
+
+        var wishListEntityMutable = new WishListEntity(
+                UUID.randomUUID(),
+                clientId,
+                mutableProducts());
+
+        when(iWishListRepository.findByClientId(clientId)).thenReturn(wishListEntityMutable);
+
+        wishListRepository.insertProduct(clientId, insertProductReqOutDto);
+
+        verify(iWishListRepository, times(0)).insert((any(WishListEntity.class)));
+        verify(iWishListRepository, times(1)).save((any(WishListEntity.class)));
+
+    }
+
+    @Test
     void getProductsBy_when_get_product_by_client_is_Ok() {
         when(iWishListRepository.findByClientId(clientId)).thenReturn(wishListEntity);
 
