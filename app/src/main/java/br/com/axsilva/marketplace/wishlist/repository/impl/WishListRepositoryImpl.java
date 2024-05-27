@@ -28,6 +28,8 @@ public class WishListRepositoryImpl implements WishListOutPutBoundary {
 
     private final IWishListRepository iWishListRepository;
 
+    private static final int MAX_PRODUCTS = 20;
+
     public WishListRepositoryImpl(
             IWishListRepository iWishListRepository
     ) {
@@ -38,22 +40,34 @@ public class WishListRepositoryImpl implements WishListOutPutBoundary {
     public void insertProduct(String clientId, InsertProductReqOutDto insertProductReqOut) {
         try {
             log.info("WishListRepositoryImpl.insertProducts(clientId, insertProductReqIn: {})", insertProductReqOut);
-            var wishlist = getByClientId(clientId);
-            if(wishlist.products().size() == 20){
-                log.error("WishListRepositoryImpl.insertProducts(clientId, insertProductReqIn: {}), constraint = WishHasTwentyProductRegisteredException", insertProductReqOut);
-                throw new WishHasTwentyProductRegisteredException();
-            }
-            if(filterProductsWith(insertProductReqOut.referenceCode(), wishlist).size() > 0){
-                log.error("WishListRepositoryImpl.insertProducts(clientId, insertProductReqIn: {}), constraint = ProductAlreadySelectedException", insertProductReqOut);
-                throw new ProductAlreadySelectedException();
-            }
-            wishlist.products().add(new InsertProductResEntityMapper().inputDtoToEntity(insertProductReqOut));
-            iWishListRepository.save(wishlist);
+            var consultedWishlist = getByClientId(clientId);
+            validateBeforeInsertProduct(insertProductReqOut, consultedWishlist);
+            consultedWishlist.products().add(new InsertProductResEntityMapper().inputDtoToEntity(insertProductReqOut));
+            iWishListRepository.save(consultedWishlist);
         } catch (WishListEntityNotFoundException e) {
             iWishListRepository.insert(new InsertWishListReqEntityMapper().inputDtoToEntity(clientId, insertProductReqOut));
         } catch (MongoException e) {
             log.error("WishListRepositoryImpl.insertProduct({clientId}, insertProductReqIn: {}), An error occurred when querying the database.)", insertProductReqOut);
             throw new GenericRepositoryException();
+        }
+    }
+
+    private static void validateBeforeInsertProduct(InsertProductReqOutDto insertProductReqOut, WishListEntity consultedWishlist) {
+        checkProductExceededLimit(insertProductReqOut, consultedWishlist);
+        checkProductAlreadySelected(insertProductReqOut, consultedWishlist);
+    }
+
+    private static void checkProductAlreadySelected(InsertProductReqOutDto insertProductReqOut, WishListEntity wishlist) {
+        if(filterProductsWith(insertProductReqOut.referenceCode(), wishlist).size() > 0){
+            log.error("WishListRepositoryImpl.checkProductAlreadySelected(clientId, insertProductReqIn: {}), constraint = ProductAlreadySelectedException", insertProductReqOut);
+            throw new ProductAlreadySelectedException();
+        }
+    }
+
+    private static void checkProductExceededLimit(InsertProductReqOutDto insertProductReqOut, WishListEntity wishlist) {
+        if(wishlist.products().size() == MAX_PRODUCTS){
+            log.error("WishListRepositoryImpl.checkProductExceededLimit(clientId, insertProductReqIn: {}), constraint = WishHasTwentyProductRegisteredException", insertProductReqOut);
+            throw new WishHasTwentyProductRegisteredException();
         }
     }
 
