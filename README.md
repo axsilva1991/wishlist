@@ -58,9 +58,10 @@ This project use [Karate Framework](https://github.com/karatelabs/karate) to int
 ```bash
 cd 
 $ cd ./integration-test
-$ docker-compose up --build -d
+$ docker-compose up --build
 
 ```
+After finalize tests this image its stoped.
 
 ## Documentation
 
