@@ -1,12 +1,14 @@
 package br.com.axsilva.marketplace.wishlist.usecase;
 
 import br.com.axsilva.marketplace.wishlist.input_boundary.dto.request.InsertProductReqInDto;
+import br.com.axsilva.marketplace.wishlist.input_boundary.exception.ProductLimitException;
 import br.com.axsilva.marketplace.wishlist.output_boundary.WishListOutPutBoundary;
 import br.com.axsilva.marketplace.wishlist.output_boundary.dto.response.ListProductResOutDto;
 import br.com.axsilva.marketplace.wishlist.output_boundary.dto.response.ListProductsResOutDto;
 import br.com.axsilva.marketplace.wishlist.repository.exception.GenericRepositoryException;
 import br.com.axsilva.marketplace.wishlist.repository.exception.ProductAlreadySelectedException;
 import br.com.axsilva.marketplace.wishlist.repository.exception.ProductEntityNotFoundException;
+import br.com.axsilva.marketplace.wishlist.repository.exception.WishHasTwentyProductRegisteredException;
 import br.com.axsilva.marketplace.wishlist.repository.exception.WishListEntityNotFoundException;
 import br.com.axsilva.marketplace.wishlist.input_boundary.exception.BusinessException;
 import br.com.axsilva.marketplace.wishlist.input_boundary.exception.InternalErrorException;
@@ -52,6 +54,15 @@ class WishListUseCaseTest {
     }
 
 
+    @Test
+    void insert_one_Product_when_insert_product_by_client_and_product_when_return_WishHasTwentyProductRegisteredException() {
+
+        doThrow(WishHasTwentyProductRegisteredException.class).when(wishListOutPutBoundary).insertProduct(clientId, InsertProductReqOutputBoundaryMapper.INSTANCE.inputDtoToOutputBoundary(insertProductReqInDto));
+
+        assertThrows(ProductLimitException.class, () -> wishListUseCase.insertProduct(clientId, insertProductReqInDto));
+
+        verify(wishListOutPutBoundary, times(1)).insertProduct(clientId, InsertProductReqOutputBoundaryMapper.INSTANCE.inputDtoToOutputBoundary(insertProductReqInDto));
+    }
     @Test
     void insert_one_Product_when_insert_product_by_client_and_product_when_return_ProductAlreadySelectedException() {
 
