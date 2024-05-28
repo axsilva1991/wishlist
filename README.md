@@ -23,7 +23,6 @@ This is software responsible for managing wishlist of products for Axsilva Marke
 # Requirements for Run Application
 * Docker
 * Docker Compose
-* RestAPI Client's for example: (Postman/Insomnia)
 * Access Internet for gradlew dependency's download
 * Communication port <b>8081</b> released on the computer
 
