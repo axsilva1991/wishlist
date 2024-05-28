@@ -95,3 +95,6 @@ This application used GitHub actions to inspect and improve code. Your steps are
 * [Upload code to Codecov](https://codecov.io/github/axsilva1991/wishlist)
 * Build Docker Machine
 * Dependency Check Vulnerability's of dependencies.
+
+## Contact Support
+For more information, contact our technical department: <a href="mailto:matt@anderson.xavier91@gmail.">anderson.xavier91@gmail.</a>
