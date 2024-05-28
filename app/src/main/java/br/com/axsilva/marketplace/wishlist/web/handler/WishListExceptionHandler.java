@@ -1,14 +1,14 @@
 package br.com.axsilva.marketplace.wishlist.web.handler;
 
-import br.com.axsilva.marketplace.wishlist.usecase.exception.BusinessException;
-import br.com.axsilva.marketplace.wishlist.usecase.exception.CustomException;
-import br.com.axsilva.marketplace.wishlist.usecase.exception.InternalErrorException;
-import br.com.axsilva.marketplace.wishlist.usecase.exception.ProductDeletedException;
-import br.com.axsilva.marketplace.wishlist.usecase.exception.ProductLimitException;
-import br.com.axsilva.marketplace.wishlist.usecase.exception.ProductNotFoundException;
-import br.com.axsilva.marketplace.wishlist.usecase.exception.ProductSelectedException;
-import br.com.axsilva.marketplace.wishlist.usecase.exception.ValidateProductNotFoundException;
-import br.com.axsilva.marketplace.wishlist.usecase.exception.WishListNotFoundException;
+import br.com.axsilva.marketplace.wishlist.input_boundary.exception.BusinessException;
+import br.com.axsilva.marketplace.wishlist.input_boundary.exception.CustomException;
+import br.com.axsilva.marketplace.wishlist.input_boundary.exception.InternalErrorException;
+import br.com.axsilva.marketplace.wishlist.input_boundary.exception.ProductDeletedException;
+import br.com.axsilva.marketplace.wishlist.input_boundary.exception.ProductLimitException;
+import br.com.axsilva.marketplace.wishlist.input_boundary.exception.ProductNotFoundException;
+import br.com.axsilva.marketplace.wishlist.input_boundary.exception.ProductSelectedException;
+import br.com.axsilva.marketplace.wishlist.input_boundary.exception.ValidateProductNotFoundException;
+import br.com.axsilva.marketplace.wishlist.input_boundary.exception.WishListNotFoundException;
 import br.com.axsilva.marketplace.wishlist.web.dto.response.ErrorResWebDto;
 import jakarta.validation.UnexpectedTypeException;
 import jakarta.validation.ValidationException;
@@ -29,21 +29,12 @@ public class WishListExceptionHandler {
                 "Inconsistency in the data reported"),
                 HttpStatus.UNPROCESSABLE_ENTITY);
     }
-
-    @ExceptionHandler(value = {ProductSelectedException.class})
+    @ExceptionHandler(value = {ProductLimitException.class, ProductSelectedException.class})
     protected ResponseEntity<ErrorResWebDto> handleUnpronounceableEntity(
-            ProductSelectedException ex, WebRequest request) {
+            CustomException ex, WebRequest request) {
         return new ResponseEntity<ErrorResWebDto>(new ErrorResWebDto(
-                "PRODUCT_SELECTED_ERROR",
-                "This product already selected."),
-                HttpStatus.UNPROCESSABLE_ENTITY);
-    }
-    @ExceptionHandler(value = {ProductLimitException.class})
-    protected ResponseEntity<ErrorResWebDto> handleProductLimitException(
-            ProductLimitException ex, WebRequest request) {
-        return new ResponseEntity<ErrorResWebDto>(new ErrorResWebDto(
-                "PRODUCT_LIMIT_REACHED",
-                "Product limit reached, please verify your wishlist before insert new product's."),
+                ex.getCustomErrorMessage().getCode(),
+                ex.getCustomErrorMessage().getMessage()),
                 HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
@@ -56,21 +47,12 @@ public class WishListExceptionHandler {
                 HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
-    @ExceptionHandler(value = {WishListNotFoundException.class})
-    protected ResponseEntity<ErrorResWebDto> handleProductNotFoundError(
-            WishListNotFoundException ex, WebRequest request) {
+    @ExceptionHandler(value = {ProductNotFoundException.class, WishListNotFoundException.class})
+    protected ResponseEntity<ErrorResWebDto> handleCustomNotFoundError(
+            CustomException ex, WebRequest request) {
         return new ResponseEntity<ErrorResWebDto>(new ErrorResWebDto(
-                "WISHLIST_NOT_FOUND_ERROR",
-                "This wishlist was not found or empty."),
-                HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(value = {ProductNotFoundException.class})
-    protected ResponseEntity<ErrorResWebDto> handleWishListNotFoundError(
-            ProductNotFoundException ex, WebRequest request) {
-        return new ResponseEntity<ErrorResWebDto>(new ErrorResWebDto(
-                "PRODUCT_NOT_FOUND_ERROR",
-                "This product was not found."),
+                ex.getCustomErrorMessage().getCode(),
+                ex.getCustomErrorMessage().getMessage()),
                 HttpStatus.NOT_FOUND);
     }
 

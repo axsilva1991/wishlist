@@ -1,12 +1,11 @@
 package br.com.axsilva.marketplace.wishlist.web.handler;
 
-import br.com.axsilva.marketplace.wishlist.usecase.exception.CustomException;
-import br.com.axsilva.marketplace.wishlist.usecase.exception.ProductDeletedException;
-import br.com.axsilva.marketplace.wishlist.usecase.exception.ProductLimitException;
-import br.com.axsilva.marketplace.wishlist.usecase.exception.ProductNotFoundException;
-import br.com.axsilva.marketplace.wishlist.usecase.exception.ProductSelectedException;
-import br.com.axsilva.marketplace.wishlist.usecase.exception.ValidateProductNotFoundException;
-import br.com.axsilva.marketplace.wishlist.usecase.exception.WishListNotFoundException;
+import br.com.axsilva.marketplace.wishlist.input_boundary.exception.CustomException;
+import br.com.axsilva.marketplace.wishlist.input_boundary.exception.ProductDeletedException;
+import br.com.axsilva.marketplace.wishlist.input_boundary.exception.ProductNotFoundException;
+import br.com.axsilva.marketplace.wishlist.input_boundary.exception.ProductSelectedException;
+import br.com.axsilva.marketplace.wishlist.input_boundary.exception.ValidateProductNotFoundException;
+import br.com.axsilva.marketplace.wishlist.input_boundary.exception.WishListNotFoundException;
 import br.com.axsilva.marketplace.wishlist.usecase.utils.MessageError;
 import br.com.axsilva.marketplace.wishlist.web.dto.response.ErrorResWebDto;
 import jakarta.validation.UnexpectedTypeException;
@@ -59,21 +58,33 @@ class WishListExceptionHandlerTest {
 
     }
 
+
+    @Test
+    public void testHandleProductLimitException() {
+        ResponseEntity<ErrorResWebDto> responseEntity = handler.handleUnpronounceableEntity(
+                new ProductSelectedException(MessageError.PRODUCT_LIMIT_REACHED), null);
+        assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, responseEntity.getStatusCode());
+        ErrorResWebDto errorResWebDto = responseEntity.getBody();
+        assertNotNull(errorResWebDto);
+        assertEquals(MessageError.PRODUCT_LIMIT_REACHED.getCode(), errorResWebDto.code());
+        assertEquals(MessageError.PRODUCT_LIMIT_REACHED.getMessage(), errorResWebDto.message());
+
+    }
     @Test
     public void testHandleProductNotFoundErrorException() {
-        ResponseEntity<ErrorResWebDto> responseEntity = handler.handleProductNotFoundError(
+        ResponseEntity<ErrorResWebDto> responseEntity = handler.handleCustomNotFoundError(
                 new WishListNotFoundException(MessageError.WISHLIST_NOT_FOUND_ERROR), null);
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
         ErrorResWebDto errorResWebDto = responseEntity.getBody();
         assertNotNull(errorResWebDto);
-        assertEquals("WISHLIST_NOT_FOUND_ERROR", errorResWebDto.code());
-        assertEquals("This wishlist was not found or empty.", errorResWebDto.message());
+        assertEquals(MessageError.WISHLIST_NOT_FOUND_ERROR.getCode(), errorResWebDto.code());
+        assertEquals(MessageError.WISHLIST_NOT_FOUND_ERROR.getMessage(), errorResWebDto.message());
     }
 
 
     @Test
     public void testHandleWishListNotFoundErrorException() {
-        ResponseEntity<ErrorResWebDto> responseEntity = handler.handleWishListNotFoundError(
+        ResponseEntity<ErrorResWebDto> responseEntity = handler.handleCustomNotFoundError(
                 new ProductNotFoundException(MessageError.PRODUCT_NOT_FOUND_ERROR), null);
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
         ErrorResWebDto errorResWebDto = responseEntity.getBody();
@@ -120,15 +131,5 @@ class WishListExceptionHandlerTest {
         assertEquals("The server encountered an unexpected condition, please try again later.", errorResWebDto.message());
     }
 
-    @Test
-    public void testHandleProductLimitException() {
-        ResponseEntity<ErrorResWebDto> responseEntity = handler.handleProductLimitException(
-                new ProductLimitException(MessageError.PRODUCT_LIMIT_REACHED), null);
-        assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, responseEntity.getStatusCode());
-        ErrorResWebDto errorResWebDto = responseEntity.getBody();
-        assertNotNull(errorResWebDto);
-        assertEquals("PRODUCT_LIMIT_REACHED", errorResWebDto.code());
-        assertEquals("Product limit reached, please verify your wishlist before insert new product's.", errorResWebDto.message());
-    }
 
 }
