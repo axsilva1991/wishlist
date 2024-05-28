@@ -40,8 +40,7 @@ $ docker-compose up --build -d
 
 ### Shut down
 >**Atention** <br>
-> Before running shutdown commands, make sure you have performed functional tests of the application.
-<br>
+> Before running shutdown commands, make sure you have performed functional tests of the application.<br>
 > ```bash
 > $ docker-compose down
 > ```
