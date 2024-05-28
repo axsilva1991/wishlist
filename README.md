@@ -45,9 +45,12 @@ $ docker-compose up --build -d
 > $ docker-compose down
 > ```
 
-<details>
-<summary><b>Kubernetes</b></summary>  
+## Kubernetes 
 
+### Requirements for Run Application
+- Kubernetes cluster and access to docker hub registry<br>
+
+## Run the app
 Run command for create services and deployments
 
 ```bash
@@ -58,7 +61,6 @@ $ /wishlist/.kubernetes> kubectl apply -f .\kubernetes\kubernetes_manifest.yaml
 After run this commands access [swagger](http://localhost:8080/api-docs/swagger-ui/index.html) to validate application its ok.
 
 
-</details>
 
 ## Test
 ## Integration Test on Kubernetes
