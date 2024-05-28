@@ -24,7 +24,7 @@ This is software responsible for managing wishlist of products for Axsilva Marke
 * Docker
 * Docker Compose
 * Access Internet for gradlew dependency's download
-* Communication port <b>8081</b> released on the computer
+* Communication port <b>8081</b> available on the computer
 
 # Usage
 ## Run the app anyway
