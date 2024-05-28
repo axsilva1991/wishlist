@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wishlist-backend-k8s
+spec:
+  selector:
+    matchLabels:
+      app: wishlist-backend-k8s
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: wishlist-backend-k8s
+    spec:
+      containers:
+        - name: wishlist-backend-k8s
+          image: axsilva1991/wishlist-backend
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8081
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wishlist-integration-test-k8s
+spec:
+  selector:
+    matchLabels:
+      app: wishlist-integration-test-k8s
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: wishlist-integration-test-k8s
+    spec:
+      containers:
+        - name: wishlist-integration-test-k8s
+          image: axsilva1991/integration-test
+          imagePullPolicy: IfNotPresent
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo
+  labels:
+    app: mongo
+spec:
+  selector:
+    matchLabels:
+      app: mongo
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      containers:
+        - image: mongo
+          name: mongo-db
+          ports:
+            - containerPort: 27017
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wishlist-backend-svc
+spec:
+  selector:
+    app: wishlist-backend-k8s
+  ports:
+    - port: 8081
+      nodePort: 30004
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb
+  labels:
+    run: mongodb
+spec:
+  ports:
+    - port: 27017
+      targetPort: 27017
+      protocol: TCP
+  selector:
+    app: mongo

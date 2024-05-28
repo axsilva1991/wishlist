@@ -46,7 +46,47 @@ $ docker-compose up --build -d
 > $ docker-compose down
 > ```
 
+<details>
+<summary><b>Kubernetes</b></summary>  
+
+Run command for create services and deployments
+
+```bash
+$ cd .kubernetes
+$ /wishlist/.kubernetes> kubectl apply -f .\kubernetes\kubernetes_manifest.yaml
+```
+
+After run this commands access [swagger](http://localhost:8080/api-docs/swagger-ui/index.html) to validate application its ok.
+
+
+</details>
+
 ## Test
+## Integration Test on Kubernetes
+This application has integration tests running on kubernetes, if you want to see the results of the tests you need to run a kubernetes command below
+```bash
+kubectl logs -f deployment/wishlist-backend-k8s
+```
+```
+Gradle Test Executor 1 finished executing tests.
+
+> Task :test
+Finished generating test XML results (0.032 secs) into: /usr/src/java-code/build/test-results/test
+Generating HTML test report...
+Finished generating test html results (0.044 secs) into: /usr/src/java-code/build/reports/tests/test
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.7/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 29s
+4 actionable tasks: 4 executed
+
+```
+
+## Integration Test on Docker
 
 This project use [Karate Framework](https://github.com/karatelabs/karate) to integration tests and excecute scenarios you need to start application and run commands start a integration tests image.
 
@@ -76,6 +116,9 @@ $ docker-compose up --build
 
 ```
 After finishing the tests, this image will be interrupted.
+
+## Unit Test
+After build application this app running unit tests with [Junit](https://junit.org/junit5/docs/current/user-guide/), if you want to see results and coverage access [codecov](https://app.codecov.io/github/axsilva1991/wishlist) or see [runner pipeline actions.](https://github.com/axsilva1991/wishlist/actions)
 
 ## Documentation
 ### Swagger
