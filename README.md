@@ -28,7 +28,8 @@ This is software responsible for managing wishlist of products for Axsilva Marke
 
 # Usage
 ## Run the app anyway
-
+After download project with git clone command, and install all software required in your machine.
+Are you able to run wish [docker-compose](https://docs.docker.com/compose/)
 ## Docker
 
 ### Run
@@ -42,7 +43,6 @@ $ docker-compose up --build -d
 $ docker-compose down
 ```
 
-After run this commands access [swagger](http://localhost:8081/api-docs/swagger-ui/index.html) to validate application it's ok.
 
 
 ## Test
@@ -78,7 +78,16 @@ After finishing the tests, this image will be interrupted.
 
 ## Documentation
 ### Swagger
-This project Using OpenAPI 3.0 specification if you whant to see a doc open [swagger-ui](http://localhost:8081/api-docs/swagger-ui/index.html) in your Browser
+- This project Using OpenAPI 3.0 specification if you whant to see a doc open [swagger-ui](http://localhost:8081/api-docs/swagger-ui/index.html) in your Browser
+- If you want to access contracts application access [swagger-local](http://localhost:8081/api-docs/swagger-ui/index.html) to validate all application contracts REST.
+
+## Continuous integration
+
+This application used [GitHub Actions](https://docs.github.com/en/actions) to inspect and improve code. Your steps are:
+* Build Gradle (Build application and run unit tests)
+* [Upload code to Codecov](https://codecov.io/github/axsilva1991/wishlist)
+* Build Docker Machine
+* Dependency Check Vulnerability's of dependencies.
 
 ### Architecture
 This part represents the [C4](https://c4model.com/) model context and container diagram and can help you better understand how the service will work.
@@ -88,18 +97,8 @@ This part represents the [C4](https://c4model.com/) model context and container 
 #### Container
 ![Screenshot](wishListContainerDiagram.png)
 
-## Continuous integration
-
-This application used GitHub actions to inspect and improve code. Your steps are:
-* Build Gradle (Build application and run unit tests)
-* [Upload code to Codecov](https://codecov.io/github/axsilva1991/wishlist)
-* Build Docker Machine
-* Dependency Check Vulnerability's of dependencies.
-
 ## Observability
-
 - To help debug errors, all transactions in this system generate "correlation-id" returned in the header of all calls without the need to capture customer data.
-
 
 ```java
 
