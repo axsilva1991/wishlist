@@ -10,7 +10,6 @@ import br.com.axsilva.marketplace.wishlist.usecase.exception.ProductSelectedExce
 import br.com.axsilva.marketplace.wishlist.usecase.exception.ValidateProductNotFoundException;
 import br.com.axsilva.marketplace.wishlist.usecase.exception.WishListNotFoundException;
 import br.com.axsilva.marketplace.wishlist.web.dto.response.ErrorResWebDto;
-import jakarta.validation.ConstraintDeclarationException;
 import jakarta.validation.UnexpectedTypeException;
 import jakarta.validation.ValidationException;
 import org.springframework.http.HttpStatus;
@@ -41,10 +40,10 @@ public class WishListExceptionHandler {
     }
     @ExceptionHandler(value = {ProductLimitException.class})
     protected ResponseEntity<ErrorResWebDto> handleProductLimitException(
-            ProductSelectedException ex, WebRequest request) {
+            ProductLimitException ex, WebRequest request) {
         return new ResponseEntity<ErrorResWebDto>(new ErrorResWebDto(
                 "PRODUCT_LIMIT_REACHED",
-                "Product limit reached, please verify your wishlist to insert new product's."),
+                "Product limit reached, please verify your wishlist before insert new product's."),
                 HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
@@ -62,7 +61,7 @@ public class WishListExceptionHandler {
             WishListNotFoundException ex, WebRequest request) {
         return new ResponseEntity<ErrorResWebDto>(new ErrorResWebDto(
                 "WISHLIST_NOT_FOUND_ERROR",
-                "This wishlist was not found."),
+                "This wishlist was not found or empty."),
                 HttpStatus.NOT_FOUND);
     }
 

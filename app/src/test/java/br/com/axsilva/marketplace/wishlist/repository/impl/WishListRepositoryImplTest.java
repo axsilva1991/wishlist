@@ -6,6 +6,7 @@ import br.com.axsilva.marketplace.wishlist.repository.entity.WishListEntity;
 import br.com.axsilva.marketplace.wishlist.repository.exception.GenericRepositoryException;
 import br.com.axsilva.marketplace.wishlist.repository.exception.ProductAlreadySelectedException;
 import br.com.axsilva.marketplace.wishlist.repository.exception.ProductEntityNotFoundException;
+import br.com.axsilva.marketplace.wishlist.repository.exception.WishHasTwentyProductRegisteredException;
 import br.com.axsilva.marketplace.wishlist.repository.exception.WishListEntityNotFoundException;
 import br.com.axsilva.marketplace.wishlist.repository.mongo.IWishListRepository;
 import com.mongodb.MongoException;
@@ -57,6 +58,22 @@ class WishListRepositoryImplTest {
         wishListRepository.insertProduct(clientId, insertProductReqOutDto);
 
         verify(iWishListRepository, times(1)).insert((any(WishListEntity.class)));
+    }
+
+    @Test
+    void insertProduct_when_already_has_twenty_products_on_wishlist() {
+
+        var wishListEntityMutable = new WishListEntity(
+                UUID.randomUUID(),
+                clientId,
+                with20Products());
+
+        when(iWishListRepository.findByClientId(clientId)).thenReturn(wishListEntityMutable);
+
+        assertThrows(WishHasTwentyProductRegisteredException.class, () -> wishListRepository.insertProduct(clientId, insertProductReqOutDto));
+
+        verify(iWishListRepository, times(0)).insert((any(WishListEntity.class)));
+        verify(iWishListRepository, times(1)).findByClientId(clientId);
     }
 
     @Test
@@ -237,8 +254,6 @@ class WishListRepositoryImplTest {
         verify(iWishListRepository, times(1)).save(any());
     }
 
-
-
     private static ArrayList<ProductEntity> mutableProducts() {
         var products = new ArrayList<ProductEntity>();
         products.add(new ProductEntity(
@@ -249,5 +264,110 @@ class WishListRepositoryImplTest {
         return products;
     }
 
+
+    private static List<ProductEntity> with20Products() {
+        var products = List.of(
+                new ProductEntity(
+                        UUID.randomUUID(),
+                        "referenceCode1",
+                        "referenceStore",
+                        Double.MAX_VALUE),
+                new ProductEntity(
+                        UUID.randomUUID(),
+                        "referenceCode2",
+                        "referenceStore",
+                        Double.MAX_VALUE),
+                new ProductEntity(
+                        UUID.randomUUID(),
+                        "referenceCode3",
+                        "referenceStore",
+                        Double.MAX_VALUE),
+                new ProductEntity(
+                        UUID.randomUUID(),
+                        "referenceCode4",
+                        "referenceStore",
+                        Double.MAX_VALUE),
+                new ProductEntity(
+                        UUID.randomUUID(),
+                        "referenceCode5",
+                        "referenceStore",
+                        Double.MAX_VALUE),
+                new ProductEntity(
+                        UUID.randomUUID(),
+                        "referenceCode6",
+                        "referenceStore",
+                        Double.MAX_VALUE),
+                new ProductEntity(
+                        UUID.randomUUID(),
+                        "referenceCode7",
+                        "referenceStore",
+                        Double.MAX_VALUE),
+                new ProductEntity(
+                        UUID.randomUUID(),
+                        "referenceCode8",
+                        "referenceStore",
+                        Double.MAX_VALUE),
+                new ProductEntity(
+                        UUID.randomUUID(),
+                        "referenceCode9",
+                        "referenceStore",
+                        Double.MAX_VALUE),
+                new ProductEntity(
+                        UUID.randomUUID(),
+                        "referenceCode10",
+                        "referenceStore",
+                        Double.MAX_VALUE),
+                new ProductEntity(
+                        UUID.randomUUID(),
+                        "referenceCode11",
+                        "referenceStore",
+                        Double.MAX_VALUE),
+                new ProductEntity(
+                        UUID.randomUUID(),
+                        "referenceCode12",
+                        "referenceStore",
+                        Double.MAX_VALUE),
+                new ProductEntity(
+                        UUID.randomUUID(),
+                        "referenceCode13",
+                        "referenceStore",
+                        Double.MAX_VALUE),
+                new ProductEntity(
+                        UUID.randomUUID(),
+                        "referenceCode14",
+                        "referenceStore",
+                        Double.MAX_VALUE),
+                new ProductEntity(
+                        UUID.randomUUID(),
+                        "referenceCode15",
+                        "referenceStore",
+                        Double.MAX_VALUE),
+                new ProductEntity(
+                        UUID.randomUUID(),
+                        "referenceCode16",
+                        "referenceStore",
+                        Double.MAX_VALUE),
+                new ProductEntity(
+                        UUID.randomUUID(),
+                        "referenceCode17",
+                        "referenceStore",
+                        Double.MAX_VALUE),
+                new ProductEntity(
+                        UUID.randomUUID(),
+                        "referenceCode18",
+                        "referenceStore",
+                        Double.MAX_VALUE),
+                new ProductEntity(
+                        UUID.randomUUID(),
+                        "referenceCode20",
+                        "referenceStore",
+                        Double.MAX_VALUE),
+                new ProductEntity(
+                        UUID.randomUUID(),
+                        "referenceCode21",
+                        "referenceStore",
+                        Double.MAX_VALUE));
+        return products;
+    }
 
 }

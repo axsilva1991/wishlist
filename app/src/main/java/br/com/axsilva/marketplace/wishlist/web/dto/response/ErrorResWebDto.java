@@ -11,9 +11,9 @@ public record ErrorResWebDto(
         String code,
         @Schema(
                 requiredMode = Schema.RequiredMode.REQUIRED,
-                examples = "error code title.",
+                examples = "error message.",
                 description = "Functional description of the error."
         )
-        String title
+        String message
 ) {
 }

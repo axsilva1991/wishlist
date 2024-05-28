@@ -45,7 +45,7 @@ public interface WishListOpenApi {
                                                     "    \"error\":" +
                                                     "      {\n" +
                                                     "        \"code\": \"ERROR_CODE\",\n" +
-                                                    "        \"title\": \"error code title\"\n" +
+                                                    "        \"message\": \"error code message\"\n" +
                                                     "      }\n" +
                                                     "  }\n"
                                     )}),
@@ -62,7 +62,7 @@ public interface WishListOpenApi {
                                                     "    \"error\":" +
                                                     "      {\n" +
                                                     "        \"code\": \"ERROR_CODE\",\n" +
-                                                    "        \"title\": \"error code title\"\n" +
+                                                    "        \"message\": \"error code message\"\n" +
                                                     "      }\n" +
                                                     "  }\n"
                                     )}),
@@ -79,7 +79,7 @@ public interface WishListOpenApi {
                                                     "    \"error\":" +
                                                     "      {\n" +
                                                     "        \"code\": \"ERROR_CODE\",\n" +
-                                                    "        \"title\": \"error code title\"\n" +
+                                                    "        \"message\": \"error code message\"\n" +
                                                     "      }\n" +
                                                     "  }\n"
                                     )}),
@@ -122,7 +122,7 @@ public interface WishListOpenApi {
                                                     "    \"error\":" +
                                                     "      {\n" +
                                                     "        \"code\": \"ERROR_CODE\",\n" +
-                                                    "        \"title\": \"error code title\"\n" +
+                                                    "        \"message\": \"error code message\"\n" +
                                                     "      }\n" +
                                                     "  }\n"
                                     )}),
@@ -139,7 +139,7 @@ public interface WishListOpenApi {
                                                     "    \"error\":" +
                                                     "      {\n" +
                                                     "        \"code\": \"ERROR_CODE\",\n" +
-                                                    "        \"title\": \"error code title\"\n" +
+                                                    "        \"message\": \"error code message\"\n" +
                                                     "      }\n" +
                                                     "  }\n"
                                     )}),
@@ -181,7 +181,7 @@ public interface WishListOpenApi {
                                                     "    \"error\":" +
                                                     "      {\n" +
                                                     "        \"code\": \"ERROR_CODE\",\n" +
-                                                    "        \"title\": \"error code title\"\n" +
+                                                    "        \"message\": \"error code message\"\n" +
                                                     "      }\n" +
                                                     "  }\n"
                                     )}),
@@ -198,7 +198,7 @@ public interface WishListOpenApi {
                                                     "    \"error\":" +
                                                     "      {\n" +
                                                     "        \"code\": \"ERROR_CODE\",\n" +
-                                                    "        \"title\": \"error code title\"\n" +
+                                                    "        \"message\": \"error code message\"\n" +
                                                     "      }\n" +
                                                     "  }\n"
                                     )}),
@@ -215,7 +215,7 @@ public interface WishListOpenApi {
                                                     "    \"error\":" +
                                                     "      {\n" +
                                                     "        \"code\": \"ERROR_CODE\",\n" +
-                                                    "        \"title\": \"error code title\"\n" +
+                                                    "        \"message\": \"error code message\"\n" +
                                                     "      }\n" +
                                                     "  }\n"
                                     )}),
@@ -260,7 +260,7 @@ public interface WishListOpenApi {
                                                     "    \"error\":" +
                                                     "      {\n" +
                                                     "        \"code\": \"ERROR_CODE\",\n" +
-                                                    "        \"title\": \"error code title\"\n" +
+                                                    "        \"message\": \"error code message\"\n" +
                                                     "      }\n" +
                                                     "  }\n"
                                     )}),
@@ -277,7 +277,7 @@ public interface WishListOpenApi {
                                                     "    \"error\":" +
                                                     "      {\n" +
                                                     "        \"code\": \"ERROR_CODE\",\n" +
-                                                    "        \"title\": \"error code title\"\n" +
+                                                    "        \"message\": \"error code message\"\n" +
                                                     "      }\n" +
                                                     "  }\n"
                                     )}),

@@ -47,7 +47,7 @@ Feature: Get test for Wishlist
     And header Accept = 'application/json'
     When method GET
     Then status 404
-    And match response == {  'code': 'WISHLIST_NOT_FOUND_ERROR', 'title': 'This wishlist was not found.'}
+    And match response == {  'code': 'WISHLIST_NOT_FOUND_ERROR', 'message': 'This wishlist was not found or empty.'}
 
   Scenario: Delete a product created
     Given path '/clientId1?productReferenceCode=product1hash'

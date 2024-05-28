@@ -2,6 +2,8 @@ package br.com.axsilva.marketplace.wishlist.usecase;
 
 import br.com.axsilva.marketplace.wishlist.input_boundary.dto.request.InsertProductReqInDto;
 import br.com.axsilva.marketplace.wishlist.output_boundary.WishListOutPutBoundary;
+import br.com.axsilva.marketplace.wishlist.output_boundary.dto.response.ListProductResOutDto;
+import br.com.axsilva.marketplace.wishlist.output_boundary.dto.response.ListProductsResOutDto;
 import br.com.axsilva.marketplace.wishlist.repository.exception.GenericRepositoryException;
 import br.com.axsilva.marketplace.wishlist.repository.exception.ProductAlreadySelectedException;
 import br.com.axsilva.marketplace.wishlist.repository.exception.ProductEntityNotFoundException;
@@ -19,12 +21,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class WishListUseCaseTest {
@@ -69,7 +74,19 @@ class WishListUseCaseTest {
     @Test
     void getProductsBy_clientId_when_return_products_is_Ok() {
 
+        when(wishListOutPutBoundary.getProductsBy(clientId)).thenReturn(new ListProductsResOutDto(clientId, List.of(new ListProductResOutDto("referenceCode","referenceStore",Double.MAX_VALUE))));
+
         wishListUseCase.getProductsBy(clientId);
+
+        verify(wishListOutPutBoundary, times(1)).getProductsBy(clientId);
+    }
+
+    @Test
+    void getProductsBy_clientId_when_return_empty_on_products() {
+
+        when(wishListOutPutBoundary.getProductsBy(clientId)).thenReturn(new ListProductsResOutDto(clientId, new ArrayList()));
+
+        assertThrows(WishListNotFoundException.class, () -> wishListUseCase.getProductsBy(clientId));
 
         verify(wishListOutPutBoundary, times(1)).getProductsBy(clientId);
     }

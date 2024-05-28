@@ -49,9 +49,24 @@ After run this commands access [swagger](http://localhost:8081/api-docs/swagger-
 
 This project use [Karate Framework](https://github.com/karatelabs/karate) to integration tests and excecute scenarios you need to start application and run commands start a integration tests image.
 
->**Atention** <br>Because it is a integration test, it's work's if you run one time! <br>
->if you need to re-execute it, it is recommended to clean the database and restart the application.
-> 
+>**Atention** <br>
+> Because it is a integration test, it's work's if you run one time! <br>
+>if you need to re-execute it, it is recommended to clean the database and restart the application.<br><br>
+> <b>Before running the automated tests, make sure your application is running, if necessary you can use the actuator resources.
+> <br>
+
+Actuator health check
+```bash
+$ curl --location 'http://localhost:8081/actuator/health'
+```
+Response:
+```javascript
+{
+"status": "UP"
+}
+```
+After this part you are able to run integration tests:
+
 ### Run
 ```bash
 

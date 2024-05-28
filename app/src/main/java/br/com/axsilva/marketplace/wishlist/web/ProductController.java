@@ -6,7 +6,6 @@ import br.com.axsilva.marketplace.wishlist.web.dto.response.ListProductsResWebDt
 import br.com.axsilva.marketplace.wishlist.web.mapper.InsertProductReqInputBoundaryMapper;
 import br.com.axsilva.marketplace.wishlist.web.mapper.ListProductsResWebMapper;
 import br.com.axsilva.marketplace.wishlist.web.openapi.WishListOpenApi;
-import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -30,7 +29,6 @@ public class ProductController implements WishListOpenApi {
     public ProductController(WishListInputBoundary wishListInputBoundary) {
         this.wishListInputBoundary = wishListInputBoundary;
     }
-
 
     @PostMapping("/{clientId}")
     public ResponseEntity<HttpStatus> insertProduct(
