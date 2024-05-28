@@ -20,17 +20,18 @@ This is software responsible for managing wishlist of products for Axsilva Marke
 * [Karate Framework for integration tests](https://github.com/karatelabs/karate)
 * [Open API 3.0 specification](https://swagger.io/specification/)
 
-# Requirements for Run Application
-* Docker
-* Docker Compose
-* Access Internet for gradlew dependency's download
-* Communication port <b>8081</b> available on the computer
-
 # Usage
 ## Run the app anyway
 After download project with git clone command, and install all software required in your machine.
 Are you able to run wish [docker-compose](https://docs.docker.com/compose/)
 ## Docker
+
+### Requirements for Run Application
+Before start this application it's important you validate if your machine already has:
+* [JVM 17](https://www.oracle.com/java/technologies/downloads/#java17)
+* [Gradle 8.7.0](https://gradle.org/install/)
+* Internet access to download the Gradle dependency and the image Docker
+* Communication port <b>8081</b> available on the computer
 
 ### Run
 ```bash
@@ -105,6 +106,13 @@ INFO [wishlist 66552f5f60ed62c781cf64d5a5b05541]  30300 --- [wishlist] [io-8081-
 INFO [wishlist 66552f5f60ed62c781cf64d5a5b05541]  30300 --- [wishlist] [io-8081-exec-10] [66552f5f60ed62c781cf64d5a5b05541-81cf64d5a5b05541] b.c.a.m.w.i.WishListInputBoundary        : WishListUseCase.getProductBy(clientId)
 INFO [wishlist 66552f5f60ed62c781cf64d5a5b05541]  30300 --- [wishlist] [io-8081-exec-10] [66552f5f60ed62c781cf64d5a5b05541-81cf64d5a5b05541] b.c.a.m.w.r.impl.WishListRepositoryImpl  : WishListRepositoryImpl.getProductBy(clientId)
 ```
+## Next Features
+- Improve number of the products on wishlist
+- Configure database on Cloud Provider
+- Deploy application on Cloud Provider
+- Use a manage secrets like as [SecretManager](https://aws.amazon.com/pt/secrets-manager/) and [Keyvault](https://azure.microsoft.com/en-us/products/key-vault)
+- Create security roles and use an API Gateway
+- Include integration tests on pipeline after deploy
 
 ## Contact Support
 For more information, contact our technical department: <a href="mailto:matt@anderson.xavier91@gmail.">anderson.xavier91@gmail.</a>
