@@ -79,7 +79,6 @@ After finishing the tests, this image will be interrupted.
 ## Documentation
 ### Swagger
 - This project Using OpenAPI 3.0 specification if you whant to see a doc open [swagger-ui](http://localhost:8081/api-docs/swagger-ui/index.html) in your Browser
-- If you want to access contracts application access [swagger-local](http://localhost:8081/api-docs/swagger-ui/index.html) to validate all application contracts REST.
 
 ## Continuous integration
 
