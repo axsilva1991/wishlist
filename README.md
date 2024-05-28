@@ -11,12 +11,13 @@
 
 This is software responsible for managing wishlist of products for Axsilva MarketPlace customers.
 
-# Api-Rest
+# Frameworks
 
 * [Some Concepts off the Clean Architecture](https://www.amazon.com.br/Clean-Architecture-Craftsmans-Software-Structure/dp/0134494164)
 * [Mongo DB](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-community-with-docker/)
 * [SpringBoot](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/)
 * [Junit for Unit Tests](https://junit.org/junit5/docs/current/user-guide/)
+* [Karate Framework for integration tests](https://github.com/karatelabs/karate)
 * [Open API 3.0 specification](https://swagger.io/specification/)
 
 # Requirements for Run Application
@@ -52,7 +53,7 @@ This project use [Karate Framework](https://github.com/karatelabs/karate) to int
 >**Atention** <br>
 > Because it is a integration test, it's work's if you run one time! <br>
 >if you need to re-execute it, it is recommended to clean the database and restart the application.<br><br>
-> <b>Before running the automated tests, make sure your application is running, if necessary you can use the actuator resources.
+> <b>Before running the automated tests, make sure your application is running, if necessary you can use the actuator resources.</b>
 > <br>
 
 Actuator health check
@@ -95,6 +96,18 @@ This application used GitHub actions to inspect and improve code. Your steps are
 * [Upload code to Codecov](https://codecov.io/github/axsilva1991/wishlist)
 * Build Docker Machine
 * Dependency Check Vulnerability's of dependencies.
+
+## Observability
+
+- To help debug errors, all transactions in this system generate "correlation-id" returned in the header of all calls without the need to capture customer data.
+
+
+```java
+
+INFO [wishlist 66552f5f60ed62c781cf64d5a5b05541]  30300 --- [wishlist] [io-8081-exec-10] [66552f5f60ed62c781cf64d5a5b05541-81cf64d5a5b05541] b.c.a.m.wishlist.web.ProductController   : GET - /v1/wishlist/products/{clientId}
+INFO [wishlist 66552f5f60ed62c781cf64d5a5b05541]  30300 --- [wishlist] [io-8081-exec-10] [66552f5f60ed62c781cf64d5a5b05541-81cf64d5a5b05541] b.c.a.m.w.i.WishListInputBoundary        : WishListUseCase.getProductBy(clientId)
+INFO [wishlist 66552f5f60ed62c781cf64d5a5b05541]  30300 --- [wishlist] [io-8081-exec-10] [66552f5f60ed62c781cf64d5a5b05541-81cf64d5a5b05541] b.c.a.m.w.r.impl.WishListRepositoryImpl  : WishListRepositoryImpl.getProductBy(clientId)
+```
 
 ## Contact Support
 For more information, contact our technical department: <a href="mailto:matt@anderson.xavier91@gmail.">anderson.xavier91@gmail.</a>
