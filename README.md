@@ -58,7 +58,7 @@ $ cd .kubernetes
 $ /wishlist/.kubernetes> kubectl apply -f .\kubernetes\kubernetes_manifest.yaml
 ```
 
-After run this commands access [swagger](http://localhost:8080/api-docs/swagger-ui/index.html) to validate application its ok.
+After run this commands access [swagger](http://localhost:8081/api-docs/swagger-ui/index.html) to validate application its ok.
 
 
 
